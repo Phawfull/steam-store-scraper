@@ -15,7 +15,7 @@ conn = psycopg2.connect(
     host="localhost",
     database="steamdb",
     user="postgres",
-    password="Ar13737$",
+    password="YOUR_PASSWORD",
     port="5432"
 )
 
