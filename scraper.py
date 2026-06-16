@@ -41,6 +41,12 @@ lowest_rating_game = ""
 most_reviews = 0
 most_reviews_game = ""
 
+total_price = 0
+price_count = 0
+
+total_discount = 0
+discount_count = 0
+
 for start in range(0, TOTAL_GAMES, BATCH_SIZE):
 
     url = (
@@ -166,6 +172,8 @@ for start in range(0, TOTAL_GAMES, BATCH_SIZE):
                     .replace("-", "")
                     .replace("%", "")
                 )
+                total_discount += discount_number
+                discount_count += 1
 
                 if discount_number > highest_discount:
                     highest_discount = discount_number
@@ -200,6 +208,8 @@ for start in range(0, TOTAL_GAMES, BATCH_SIZE):
                     .replace("₹", "")
                     .replace(",", "")
                 )
+                total_price += current_price_number
+                price_count += 1
 
                 if current_price_number > highest_current_price:
                     highest_current_price = current_price_number
@@ -225,6 +235,9 @@ for start in range(0, TOTAL_GAMES, BATCH_SIZE):
                 most_reviews_game = title_text
 
 conn.commit()
+
+average_price = total_price / price_count
+average_discount = total_discount / discount_count
 
 print("\nRESULTS\n")
 
@@ -257,6 +270,12 @@ print(
     f"Most Reviewed Game: "
     f"{most_reviews_game} ({most_reviews:,} reviews)"
 )
+print(
+    f"Average Price: ₹{average_price:.2f}"
+)
 
+print(
+    f"Average Discount: {average_discount:.2f}%"
+)
 cursor.close()
 conn.close()
